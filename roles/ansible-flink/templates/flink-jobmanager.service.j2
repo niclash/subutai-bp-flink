@@ -1,0 +1,18 @@
+# {{ansible_managed}}
+# Usage: jobmanager.sh ((start|start-foreground) (local|cluster|flip6) [host] [webui-port])|stop|stop-all [flip6]
+
+[Unit]
+Description=Apache Flink service for Masters
+After=network.target
+
+[Service]
+Type=forking
+User=flink
+Group=flink
+PIDFile={{flink_pid_dir}}/flink-flink-jobmanager.pid
+EnvironmentFile={{flink_config_dir}}/flink-jobmanager.cfg
+ExecStart={{flink_dir}}/bin/jobmanager.sh start cluster {{ansible_default_ipv4.address}} {{flink_ui_port}}
+ExecStop={{flink_dir}}/bin/jobmanager.sh stop
+ExecReload=
+Restart=always
+

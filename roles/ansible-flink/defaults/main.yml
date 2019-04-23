@@ -1,0 +1,16 @@
+---
+flink_version: '1.8.0'
+scala_version: '2.12'
+flink_url: "http://www-eu.apache.org/dist/flink/flink-{{flink_version}}/flink-{{flink_version}}-bin-scala_{{scala_version}}.tgz"
+
+flink_dir: "/usr/local/lib/flink"
+flink_config_dir: "/etc/flink"
+flink_log_dir: "/var/log/flink"
+flink_data_dir: "/var/lib/flink"
+flink_pid_dir: "/var/run/flink"
+flink_ha_storage: 'file:///var/lib/flink/storage'
+
+flink_rest_port: 8081
+zookeeper_hosts: "localhost:2181"
+
+flink_cluster_id: "flink-cluster"

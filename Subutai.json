@@ -1,0 +1,144 @@
+{
+  "name": "${EnvironmentName}",
+  "description": "Apache Flink",
+  "version": "0.3.0",
+  "author": "https://github.com/niclash",
+  "ssh-key": "niclas",
+  "containers": [
+    {
+      "hostname": "flink",
+      "template": "debian-buster",
+      "peer-criteria": "SRV-GROUP",
+      "peer-layout": "flink",
+      "size": "${ContainerSize}",
+      "port-mapping": [
+        {
+          "protocol": "tcp",
+          "domain": "${DomainName}",
+          "internal-port": "9092",
+          "external-port": "9092"
+        }
+      ]
+    }
+  ],
+  "peer-layouts": [
+    {
+      "name": "flink-master",
+      "peer-count": "${MasterInstances}",
+      "container-per-peer": "1"
+    },
+    {
+      "name": "flink-slave",
+      "peer-count": "${SlaveInstances}",
+      "container-per-peer": "1"
+    }
+  ],
+  "peer-criteria": [
+    {
+      "name": "SRV-GROUP",
+      "max-price": "25"
+    }
+  ],
+  "ansible-configuration": {
+    "source-url": "https://github.com/niclash/subutai-bp-flink/archive/master.zip",
+    "ansible-playbook": "ansible.yml",
+    "extra-vars": [
+      {
+        "key": "flink_cluster_id",
+        "value": "${ClusterName}"
+      },
+      {
+        "key": "zookeeper_hosts",
+        "value": "${ZookeeperHosts}"
+      },
+      {
+        "key": "flink_ui_port",
+        "value": "${FlinkUiPort}"
+      },
+      {
+        "key": "ha_type",
+        "value": "${HighAvailability}"
+      },
+      {
+        "key": "ha_fs",
+        "value": "FilesystemUrl"
+      }
+    ],
+    "groups": [
+      {
+        "name": "masters",
+        "hostnames": [
+          "flink-master"
+        ]
+      },
+      {
+        "name": "slaves",
+        "hostnames": [
+          "flink-slave"
+        ]
+      }
+    ]
+  },
+  "user-variables": {
+    "EnvironmentName": {
+      "description": "The name of the environment to create.",
+      "type": "string",
+      "validation": "[a-zA-Z_][a-zA-Z0-9_]*",
+      "default": "flink"
+    },
+    "ContainerSize": {
+      "description": "Container Size",
+      "type": "enum",
+      "default": "LARGE",
+      "validation": "LARGE,HUGE"
+    },
+    "MasterInstances": {
+      "description": "Number of Flink master instances to be run. One instance per peer, 1-99 instances",
+      "type": "int",
+      "validation": "[123456789][0123456789]?",
+      "default": "3"
+    },
+    "SlaveInstances": {
+      "description": "Number of Flink slave instances. One instance per peer, 0-99 instances",
+      "type": "int",
+      "validation": "[0123456789][0123456789]?",
+      "default": "1"
+    },
+    "DomainName": {
+      "description": "Domain name of the publicly reachable Flink endpoint.",
+      "type": "domain",
+      "validation": ".*",
+      "default": ""
+    },
+    "ClusterName": {
+      "description": "Name of the Flink cluster.",
+      "type": "string",
+      "validation": ".*",
+      "default": "flink-cluster"
+    },
+    "RestPort": {
+      "description": "Ports to use for the REST API.",
+      "type": "string",
+      "validation": "[0-9]*",
+      "default": "8081"
+    },
+    "ZookeeperHosts": {
+      "description": "Host and ports of the Zookeeper cluster to use for this Flink cluster.",
+      "type": "string",
+      "validation": ".*",
+      "default": "localhost:2181"
+    },
+    "HighAvailability": {
+      "description": "High Availability is only possible if a shared file system is available. If set to NONE, all options below are ignored.",
+      "type": "enum",
+      "default": "NONE",
+      "validation": "NONE,zookeeper"
+    },
+    "FilesystemUrl": {
+      "description": "The URL to the High Availability filesystem.",
+      "type": "string",
+      "default": "hdfs:///flink/ha/",
+      "validation": ".*"
+    }
+  }
+}

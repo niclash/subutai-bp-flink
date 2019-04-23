@@ -1,0 +1,79 @@
+---
+- group: name=flink system=yes
+- user: name=flink group=flink system=yes
+
+- name: Create {{flink_dir}}
+  file:
+    path: "{{flink_dir}}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Install Flink into {{flink_dir}}
+  unarchive:
+    src: "{{flink_url}}"
+    dest: "{{flink_dir}}"
+    remote_src: True
+    extra_opts: [ "--strip-components=1" ]
+  notify:
+    - restart flink
+
+- name: Create directories.
+  file: path={{item}} state=directory owner=flink group=flink
+  with_items:
+    - "{{flink_config_dir}}"
+    - "{{flink_log_dir}}"
+    - "{{flink_data_dir}}"
+    - "{{flink_pid_dir}}"
+    - "{{flink_ha_storage}}"
+
+- name: move opt/ libraries to lib/
+  shell: cp {{flink_dir}}/opt/{{item}}-{{flink_version}}.jar {{flink_dir}}/lib
+  with_items:
+    - flink-queryable-state-runtime_2.11
+
+- name: Create rsyslog config.
+  template: src=rsyslog.j2 dest=/etc/rsyslog.d/flink.conf
+  notify:
+    - restart rsyslog
+
+- name: Systemd flink-jobmanager script.
+  template: src=flink-jobmanager.service.j2 dest=/etc/systemd/system/flink-jobmanager.service
+  notify:
+    - restart flink
+
+- name: Systemd flink-taskmanager script.
+  template: src=flink-taskmanager.service.j2 dest=/etc/systemd/system/flink-taskmanager.service
+  notify:
+    - restart flink
+
+- name: Write configuration files.
+  template: src={{item}}.j2 dest={{flink_config_dir}}/{{item}} owner=flink group=flink
+  with_items:
+    - "flink-jobmanager.cfg"
+    - "flink-taskmanager.cfg"
+    - "flink-conf.yaml"
+    - "log4j.properties"
+    - "logback.xml"
+    - "masters"
+    - "slaves"
+  notify:
+    - restart flink
+
+# Remove the default configuration from the installation directory
+- name: Remove {{flink_dir}}/conf
+  file: path={{flink_dir}}/conf state=absent
+
+- name: Change ownership of directories.
+  file: path={{item}} state=directory owner=flink group=flink recurse=yes
+  with_items:
+    - "{{flink_config_dir}}"
+    - "{{flink_log_dir}}"
+
+- name: Start Flink Job Manager
+  service: name=flink-jobmanager.service state=started enabled=yes
+  when: master == true
+
+- name: Start Flink Task Manager
+  service: name=flink-taskmanager.service state=started enabled=yes

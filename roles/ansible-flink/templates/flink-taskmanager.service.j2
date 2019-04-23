@@ -1,0 +1,18 @@
+# {{ansible_managed}}
+# Usage: taskmanager.sh (start|start-foreground|stop|stop-all) [flip6]
+
+[Unit]
+Description=Apache Flink service for Slaves
+After=network.target
+
+[Service]
+Type=forking
+User=flink
+Group=flink
+PIDFile={{flink_pid_dir}}/flink-flink-taskmanager.pid
+EnvironmentFile={{flink_config_dir}}/flink-taskmanager.cfg
+ExecStart={{flink_dir}}/bin/taskmanager.sh start
+ExecStop={{flink_dir}}/bin/taskmanager.sh stop
+ExecReload=
+Restart=always
+
