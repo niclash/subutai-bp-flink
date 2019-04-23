@@ -1,7 +1,7 @@
 {
   "name": "${EnvironmentName}",
   "description": "Apache Flink",
-  "version": "0.3.0",
+  "version": "0.1.0",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
@@ -15,8 +15,8 @@
         {
           "protocol": "tcp",
           "domain": "${DomainName}",
-          "internal-port": "9092",
-          "external-port": "9092"
+          "internal-port": "8081",
+          "external-port": "8081"
         }
       ]
     }
