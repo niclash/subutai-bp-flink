@@ -6,10 +6,10 @@
   "ssh-key": "niclas",
   "containers": [
     {
-      "hostname": "flink",
+      "hostname": "flink-master",
       "template": "debian-buster",
       "peer-criteria": "SRV-GROUP",
-      "peer-layout": "flink",
+      "peer-layout": "flink-master",
       "size": "${ContainerSize}",
       "port-mapping": [
         {
@@ -19,6 +19,13 @@
           "external-port": "8081"
         }
       ]
+    },
+    {
+      "hostname": "flink-slave",
+      "template": "debian-buster",
+      "peer-criteria": "SRV-GROUP",
+      "peer-layout": "flink-slave",
+      "size": "${ContainerSize}"
     }
   ],
   "peer-layouts": [
