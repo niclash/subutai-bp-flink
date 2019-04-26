@@ -6,12 +6,12 @@
     - restart flink taskmanager
 
 - name: restart flink jobmanager
-  service: name=flink-jobmanager state=restarted
+  service: name=flink-jobmanager.service state=restarted
   notify: restart rsyslog
   when: master == true
 
 - name: restart flink taskmanager
-  service: name=flink-taskmanager state=restarted
+  service: name=flink-taskmanager.service state=restarted
   notify: restart rsyslog
 
 - name: restart rsyslog
