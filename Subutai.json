@@ -1,7 +1,7 @@
 {
   "name": "${EnvironmentName}",
   "description": "Apache Flink",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
@@ -15,8 +15,14 @@
         {
           "protocol": "tcp",
           "domain": "${DomainName}",
-          "internal-port": "8081",
-          "external-port": "8081"
+          "internal-port": "${RestPort}",
+          "external-port": "${RestPort}"
+        },
+        {
+          "protocol": "https",
+          "domain": "${DomainName}",
+          "internal-port": "8186",
+          "external-port": "443"
         }
       ]
     },
@@ -60,7 +66,7 @@
       },
       {
         "key": "flink_ui_port",
-        "value": "${FlinkUiPort}"
+        "value": "8186"
       },
       {
         "key": "ha_type",
