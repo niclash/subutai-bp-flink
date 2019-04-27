@@ -29,11 +29,15 @@
       - scala
 
 - hosts: flink-master
+  become: yes
+  remote_user: root
   roles:
     - role: 'ansible-flink'
       master: true
 
 - hosts: flink-slave
+  become: yes
+  remote_user: root
   roles:
     - role: 'ansible-flink'
       master: false
