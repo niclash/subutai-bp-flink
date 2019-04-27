@@ -8,7 +8,7 @@ flink_config_dir: "/etc/flink"
 flink_log_dir: "/var/log/flink"
 flink_data_dir: "/var/lib/flink"
 flink_pid_dir: "/var/run/flink"
-flink_ha_storage: 'file:///var/lib/flink/storage'
+flink_ha_storage: '/var/lib/flink/storage'
 
 flink_rest_port: 8081
 zookeeper_hosts: "localhost:2181"

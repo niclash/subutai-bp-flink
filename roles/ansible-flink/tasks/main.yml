@@ -40,6 +40,7 @@
 
 - name: Systemd flink-jobmanager script.
   template: src=flink-jobmanager.service.j2 dest=/etc/systemd/system/flink-jobmanager.service
+  when: master==true
   notify:
     - restart flink
 
@@ -57,7 +58,19 @@
     - "log4j.properties"
     - "logback.xml"
     - "masters"
+  when: master==true
+  notify:
+    - restart flink
+
+- name: Write configuration files.
+  template: src={{item}}.j2 dest={{flink_config_dir}}/{{item}} owner=flink group=flink
+  with_items:
+    - "flink-taskmanager.cfg"
+    - "flink-conf.yaml"
+    - "log4j.properties"
+    - "logback.xml"
     - "slaves"
+  when: master==false
   notify:
     - restart flink
 
@@ -66,7 +79,11 @@
   file: path={{flink_dir}}/conf state=absent
 
 - name: Change ownership of directories.
-  file: path={{item}} state=directory owner=flink group=flink recurse=yes
+  file: path={{item}}
+  state: directory
+  owner: flink
+  group: flink
+  recurse: yes
   with_items:
     - "{{flink_config_dir}}"
     - "{{flink_log_dir}}"
