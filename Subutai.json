@@ -146,8 +146,8 @@
     "TaskSlots": {
       "description": "The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.",
       "type": "string",
-      "validation": "[0-9]*",
-      "default": "8081"
+      "validation": "([1-9]|1[0-9])",
+      "default": "1"
     },
     "ZookeeperHosts": {
       "description": "Host and ports of the Zookeeper cluster to use for this Flink cluster.",
