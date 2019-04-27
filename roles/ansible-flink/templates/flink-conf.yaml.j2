@@ -29,30 +29,24 @@
 # the conf/masters file, this will be taken care of automatically. Yarn/Mesos
 # automatically configure the host name based on the hostname of the node where the
 # JobManager runs.
-
 jobmanager.rpc.address: localhost
 
 # The RPC port where the JobManager is reachable.
-
 jobmanager.rpc.port: 6123
 
 
 # The heap size for the JobManager JVM
-
 jobmanager.heap.size: 1024m
 
 
 # The heap size for the TaskManager JVM
-
 taskmanager.heap.size: 1024m
 
 
 # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
+taskmanager.numberOfTaskSlots: {{task_slots}}
 
-taskmanager.numberOfTaskSlots: 1
-
-# The parallelism used for programs that did not specify and other parallelism.
-
+# The parallelism used for programs that did not specify another parallelism.
 parallelism.default: 1
 
 # The default file system scheme and authority.
@@ -127,7 +121,7 @@ high-availability.zookeeper.quorum: {{zookeeper_hosts}}
 # The port to which the REST client connects to. If rest.bind-port has
 # not been specified, then the server will bind to this port as well.
 #
-rest.port: {{flink_rest_port}}
+rest.port: {{rest_port}}
 
 # The address to which the REST client will connect to
 #
@@ -250,3 +244,4 @@ rest.port: {{flink_rest_port}}
 
 # Interval in milliseconds for refreshing the monitored directories.
 #historyserver.archive.fs.refresh-interval: 10000
+

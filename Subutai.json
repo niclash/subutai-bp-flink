@@ -73,8 +73,16 @@
         "value": "${HighAvailability}"
       },
       {
+        "key": "task_slots",
+        "value": "${TaskSlots}"
+      },
+      {
+        "key": "rest_port",
+        "value": "${RestPort}"
+      },
+      {
         "key": "ha_fs",
-        "value": "FilesystemUrl"
+        "value": "${FilesystemUrl}"
       }
     ],
     "groups": [
@@ -131,6 +139,12 @@
     },
     "RestPort": {
       "description": "Ports to use for the REST API.",
+      "type": "string",
+      "validation": "[0-9]*",
+      "default": "8081"
+    },
+    "TaskSlots": {
+      "description": "The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.",
       "type": "string",
       "validation": "[0-9]*",
       "default": "8081"
