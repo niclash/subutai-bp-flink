@@ -79,11 +79,7 @@
   file: path={{flink_dir}}/conf state=absent
 
 - name: Change ownership of directories.
-  file: path={{item}}
-  state: directory
-  owner: flink
-  group: flink
-  recurse: yes
+  file: path={{item}} state=directory owner=flink group=flink recurse=yes
   with_items:
     - "{{flink_config_dir}}"
     - "{{flink_log_dir}}"
