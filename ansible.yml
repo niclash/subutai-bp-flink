@@ -28,14 +28,14 @@
       - openjdk-11-jre-headless
       - scala
 
-- hosts: flink-master
+- hosts: masters
   become: yes
   remote_user: root
   roles:
     - role: 'ansible-flink'
       master: true
 
-- hosts: flink-slave
+- hosts: slaves
   become: yes
   remote_user: root
   roles:
