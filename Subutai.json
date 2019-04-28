@@ -1,7 +1,7 @@
 {
   "name": "${EnvironmentName}",
   "description": "Apache Flink",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
@@ -117,13 +117,13 @@
       "description": "Number of Flink master instances to be run. One instance per peer, 1-99 instances",
       "type": "int",
       "validation": "[123456789][0123456789]?",
-      "default": "3"
+      "default": "1"
     },
     "SlaveInstances": {
       "description": "Number of Flink slave instances. One instance per peer, 0-99 instances",
       "type": "int",
       "validation": "[0123456789][0123456789]?",
-      "default": "1"
+      "default": "3"
     },
     "DomainName": {
       "description": "Domain name of the publicly reachable Flink endpoint.",
