@@ -29,7 +29,7 @@
 # the conf/masters file, this will be taken care of automatically. Yarn/Mesos
 # automatically configure the host name based on the hostname of the node where the
 # JobManager runs.
-jobmanager.rpc.address: localhost
+jobmanager.rpc.address: {{ hostvars[groups['masters'][0]].ansible_default_ipv4.address }}
 
 # The RPC port where the JobManager is reachable.
 jobmanager.rpc.port: 6123

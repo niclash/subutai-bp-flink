@@ -1,7 +1,7 @@
 {
   "name": "${EnvironmentName}",
   "description": "Apache Flink",
-  "version": "0.3.6",
+  "version": "0.3.8",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
@@ -49,7 +49,7 @@
   "peer-criteria": [
     {
       "name": "SRV-GROUP",
-      "max-price": "25"
+      "max-price": "${MaxPrice}"
     }
   ],
   "ansible-configuration": {
@@ -156,16 +156,22 @@
       "default": "localhost:2181"
     },
     "HighAvailability": {
-      "description": "High Availability is only possible if a shared file system is available. If set to NONE, all options below are ignored.",
+      "description": "High Availability mode. If NONE then there is no Master leader election, and only one of the masters are used and no point specifying more than 1 master in <i>MasterInstances</i>.",
       "type": "enum",
       "default": "NONE",
       "validation": "NONE,zookeeper"
     },
     "FilesystemUrl": {
-      "description": "The URL to the High Availability filesystem.",
+      "description": "The URL to the High Availability filesystem, used for checkpoints and savepoints. If no shared filesystem is available, then savepoints are not going to work. Example; hdfs:///flink/ha/",
       "type": "string",
-      "default": "hdfs:///flink/ha/",
+      "default": "/var/lib/flink/ha",
       "validation": ".*"
+    },
+    "MaxPrice": {
+      "description": "The maximum GW price per instance.",
+      "type": "string",
+      "default": "10",
+      "validation": "[0-9]+"
     }
   }
 }
