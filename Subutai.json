@@ -1,7 +1,7 @@
 {
   "name": "${EnvironmentName}",
   "description": "Apache Flink",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
