@@ -1,13 +1,13 @@
 {
   "name": "${EnvironmentName}",
   "description": "Apache Flink",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
     {
       "hostname": "flink-master",
-      "template": "debian-buster",
+      "template": "debian-stretch",
       "peer-criteria": "SRV-GROUP",
       "peer-layout": "flink-master",
       "size": "${ContainerSize}",
@@ -28,7 +28,7 @@
     },
     {
       "hostname": "flink-slave",
-      "template": "debian-buster",
+      "template": "debian-stretch",
       "peer-criteria": "SRV-GROUP",
       "peer-layout": "flink-slave",
       "size": "${ContainerSize}"

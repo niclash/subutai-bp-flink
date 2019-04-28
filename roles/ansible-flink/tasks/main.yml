@@ -56,7 +56,6 @@
     - "flink-taskmanager.cfg"
     - "flink-conf.yaml"
     - "log4j.properties"
-    - "logback.xml"
     - "masters"
   when: master==true
   notify:
@@ -68,7 +67,6 @@
     - "flink-taskmanager.cfg"
     - "flink-conf.yaml"
     - "log4j.properties"
-    - "logback.xml"
     - "slaves"
   when: master==false
   notify:
