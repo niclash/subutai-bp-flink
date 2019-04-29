@@ -1,7 +1,7 @@
 {
   "name": "${EnvironmentName}",
   "description": "Apache Flink",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
@@ -146,8 +146,8 @@
     "TaskSlots": {
       "description": "The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.",
       "type": "string",
-      "validation": "([1-9]|1[0-9])",
-      "default": "1"
+      "validation": "[1-9][0-9]*",
+      "default": "10"
     },
     "ZookeeperHosts": {
       "description": "Host and ports of the Zookeeper cluster to use for this Flink cluster.",
